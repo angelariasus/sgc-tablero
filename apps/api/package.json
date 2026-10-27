@@ -1,0 +1,37 @@
+{
+  "name": "@sgc/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env.local src/server.ts",
+    "dev:local": "tsx --env-file-if-exists=.env.local src/server.ts",
+    "start": "node dist/server.js",
+    "build": "node build.mjs",
+    "migrate": "tsx src/cli.ts migrate",
+    "seed": "tsx src/cli.ts seed",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check": "tsx --env-file=.env.supabase src/check.ts",
+    "dev:supabase": "tsx --env-file=.env.supabase src/server.ts"
+  },
+  "dependencies": {
+    "@fastify/compress": "^9.2.2",
+    "@fastify/cors": "^11.3.1",
+    "@fastify/multipart": "^10.1.6",
+    "@fastify/rate-limit": "^11.2.1",
+    "@sgc/catalog": "workspace:*",
+    "@sgc/db": "workspace:*",
+    "@sgc/engine": "workspace:*",
+    "@sgc/excel": "workspace:*",
+    "drizzle-orm": "^0.45.4",
+    "fastify": "^5.12.7",
+    "jose": "^6.2.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "vitest": "^5.0.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}

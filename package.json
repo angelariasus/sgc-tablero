@@ -1,0 +1,25 @@
+{
+  "name": "sgc-tablero",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "dev:api": "pnpm --filter @sgc/api dev",
+    "dev:web": "pnpm --filter @sgc/web dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @sgc/db generate",
+    "db:migrate": "pnpm --filter @sgc/db migrate",
+    "db:seed": "pnpm --filter @sgc/db seed"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

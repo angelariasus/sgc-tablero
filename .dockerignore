@@ -1,0 +1,10 @@
+**/node_modules
+**/.next
+**/dist
+**/.pglite
+**/.storage
+**/.env
+**/.env.local
+reference
+packages/engine/test/fixtures
+.git

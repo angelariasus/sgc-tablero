@@ -1,0 +1,12 @@
+{
+  "name": "@sgc/oracle",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dump": "node dump.mjs && node dump-decision.mjs"
+  },
+  "dependencies": {
+    "jsdom": "^30.1.3"
+  }
+}
