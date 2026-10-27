@@ -3,7 +3,7 @@ services:
   - type: web
     name: sgc-api
     runtime: docker
-    dockerfilePath: ./apps/api/Dockerfile
+    dockerfilePath: ./Dockerfile
     dockerContext: .
     plan: free          # «starter» (de pago) evita que la API se duerma por inactividad
     region: virginia    # elige la más cercana a la región de tu proyecto de Supabase

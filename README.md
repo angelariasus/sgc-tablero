@@ -76,7 +76,7 @@ pnpm build
 6. No hace falta crear tablas ni el bucket: la API aplica las migraciones y crea el bucket privado `sgc-archivos` al arrancar.
 
 ### 2. Render (API)
-1. En render.com crea una cuenta y conecta tu GitHub. **New → Blueprint** y elige este repositorio: `render.yaml` ya indica el `Dockerfile` (`apps/api/Dockerfile`), el chequeo `/health` y la lista de variables. (Alternativa manual: **New → Web Service → Docker**, Dockerfile `apps/api/Dockerfile`, contexto en la raíz.)
+1. En render.com crea una cuenta y conecta tu GitHub. **New → Blueprint** y elige este repositorio: `render.yaml` ya indica el `Dockerfile` (`Dockerfile` (en la raíz)), el chequeo `/health` y la lista de variables. (Alternativa manual: **New → Web Service → Docker**, Dockerfile `Dockerfile` (en la raíz), contexto en la raíz.)
 2. Render te pedirá los valores de las variables marcadas: `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `BOOTSTRAP_ADMIN_EMAIL`, `CORS_ORIGINS` (de momento pon cualquier dominio provisional; lo corriges en el paso 3). Deja `SUPABASE_JWT_SECRET` vacía. **No** definas `DEV_AUTH`.
 3. Cuando termine el despliegue, anota la URL (`https://sgc-api-xxxx.onrender.com`). Probar: `GET /health` → `{"ok":true}`.
 4. Región: la más cercana a la de Supabase (la API hace varias consultas por petición). Usa **una sola instancia**: las migraciones se aplican al arrancar.
