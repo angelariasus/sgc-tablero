@@ -1,0 +1,30 @@
+# Blueprint de Render para la API (New > Blueprint, apuntando a este repositorio).
+services:
+  - type: web
+    name: sgc-api
+    runtime: docker
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    plan: free          # «starter» (de pago) evita que la API se duerma por inactividad
+    region: virginia    # elige la más cercana a la región de tu proyecto de Supabase
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL        # Supabase > Connect > Session pooler
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY   # clave secreta (sb_secret_…)
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false              # déjala vacía con claves nuevas de Supabase
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        sync: false
+      - key: CORS_ORIGINS        # dominio de Vercel, sin barra final
+        sync: false
+      - key: SUPABASE_STORAGE_BUCKET
+        value: sgc-archivos
+      - key: MAX_UPLOAD_MB
+        value: "15"

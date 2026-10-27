@@ -53,7 +53,7 @@ export const DECISIONES: { t: string; r: string; d: string }[] = [
  */
 const AMBITOS_REEMPLAZADOS: Record<string, { pendiente: string; accion: string }> = {
   Herramienta: {
-    pendiente: "El tablero pasó de un archivo HTML a una aplicación web: pantallas en Next.js (Vercel), API en Railway y base PostgreSQL en Supabase. Los datos del modelo, los parámetros, las plantillas de Excel y las reglas de cálculo son los de la versión 0.9.",
+    pendiente: "El tablero pasó de un archivo HTML a una aplicación web: pantallas en Next.js (Vercel), API en Render y base PostgreSQL en Supabase. Los datos del modelo, los parámetros, las plantillas de Excel y las reglas de cálculo son los de la versión 0.9.",
     accion: "Definir quién mantiene la aplicación, el calendario de respaldos de la base y a quién se le piden cuentas nuevas.",
   },
   Seguridad: {

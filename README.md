@@ -1,12 +1,12 @@
 # SGC · Tablero de decisiones de las escuelas
 
-Versión web del `SGC_Tablero_dinamico_escuelas_v0.9.html`: **Next.js + React + TypeScript** (Vercel), **API Fastify + TypeScript** (Railway) y **PostgreSQL en Supabase**. Las 12 vistas, las reglas de cálculo (estados, semáforo, alertas R01–R14) y las plantillas de Excel son las de la v0.9.
+Versión web del `SGC_Tablero_dinamico_escuelas_v0.9.html`: **Next.js + React + TypeScript** (Vercel), **API Fastify + TypeScript** (Render) y **PostgreSQL en Supabase**. Las 12 vistas, las reglas de cálculo (estados, semáforo, alertas R01–R14) y las plantillas de Excel son las de la v0.9.
 
 ```
 Navegador ──► Vercel: Next.js (pantallas + motor de cálculo en el navegador)
     │               │ inicio de sesión (Supabase Auth)
     │               ▼
-    └─────────► Railway: API Fastify (permisos, Excel, exportaciones, bitácora)
+    └─────────► Render: API Fastify (permisos, Excel, exportaciones, bitácora)
                         └──► Supabase: PostgreSQL (datos) + Storage (Excel originales)
 ```
 
@@ -68,23 +68,24 @@ pnpm build
 ## Despliegue (lo haces tú, en este orden)
 
 ### 1. Supabase
-1. Crea un proyecto. **Región:** elige la misma o la más cercana a Railway (ver el punto 2).
+1. Crea un proyecto. **Región:** elige la misma o la más cercana a Render (ver el punto 2).
 2. **Authentication → Providers → Email:** deja activo el correo y contraseña y **desactiva «Allow new users to sign up»**.
 3. **Authentication → Users → Add user:** crea la cuenta de la primera persona administradora (correo y contraseña) con *Auto Confirm*.
 4. **Project Settings → Database → Connection string → Session pooler:** copia la cadena (sirve para IPv4) → será `DATABASE_URL`.
-5. **Project Settings → API (o API Keys):** copia la URL del proyecto (`SUPABASE_URL`), la clave pública *anon/publishable* (para Vercel) y la clave *service_role* (secreta, solo para Railway). Si tu proyecto aún usa la clave JWT heredada, copia también el *JWT secret* en `SUPABASE_JWT_SECRET`.
+5. **Project Settings → API (o API Keys):** copia la URL del proyecto (`SUPABASE_URL`), la clave pública *anon/publishable* (para Vercel) y la clave *service_role* (secreta, solo para Render). Si tu proyecto aún usa la clave JWT heredada, copia también el *JWT secret* en `SUPABASE_JWT_SECRET`.
 6. No hace falta crear tablas ni el bucket: la API aplica las migraciones y crea el bucket privado `sgc-archivos` al arrancar.
 
-### 2. Railway (API)
-1. Nuevo proyecto → *Deploy from GitHub repo* (raíz del repositorio). El archivo `railway.toml` ya indica el `Dockerfile` (`apps/api/Dockerfile`) y el chequeo `/health`.
-2. Variables: las de `apps/api/.env.example` (`DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `CORS_ORIGINS`, `BOOTSTRAP_ADMIN_EMAIL`…). **No** definas `DEV_AUTH`.
-3. Genera el dominio público y anota la URL (`https://….up.railway.app`). Probar: `GET /health` → `{"ok":true}`.
-4. Región recomendada: la más cercana a la de Supabase (la API hace varias consultas por petición). Usa **una sola instancia**: las migraciones se aplican al arrancar.
+### 2. Render (API)
+1. En render.com crea una cuenta y conecta tu GitHub. **New → Blueprint** y elige este repositorio: `render.yaml` ya indica el `Dockerfile` (`apps/api/Dockerfile`), el chequeo `/health` y la lista de variables. (Alternativa manual: **New → Web Service → Docker**, Dockerfile `apps/api/Dockerfile`, contexto en la raíz.)
+2. Render te pedirá los valores de las variables marcadas: `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `BOOTSTRAP_ADMIN_EMAIL`, `CORS_ORIGINS` (de momento pon cualquier dominio provisional; lo corriges en el paso 3). Deja `SUPABASE_JWT_SECRET` vacía. **No** definas `DEV_AUTH`.
+3. Cuando termine el despliegue, anota la URL (`https://sgc-api-xxxx.onrender.com`). Probar: `GET /health` → `{"ok":true}`.
+4. Región: la más cercana a la de Supabase (la API hace varias consultas por petición). Usa **una sola instancia**: las migraciones se aplican al arrancar.
+5. El plan gratuito **duerme la API tras ~15 minutos sin uso** y la primera petición tarda 30 a 60 s en despertar. Para uso diario conviene un plan de pago pequeño (`plan: starter` en `render.yaml`).
 
 ### 3. Vercel (pantallas)
 1. *Import Project* → el mismo repositorio, **Root Directory = `apps/web`** (activa «Include source files outside of the Root Directory»).
-2. Variables: `NEXT_PUBLIC_API_URL` (URL de Railway), `NEXT_PUBLIC_AUTH_MODE=supabase`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-3. Despliega y vuelve a Railway: pon el dominio de Vercel en `CORS_ORIGINS` (sin barra final) y redespliega la API.
+2. Variables: `NEXT_PUBLIC_API_URL` (URL de Render), `NEXT_PUBLIC_AUTH_MODE=supabase`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. Despliega y vuelve a Render: pon el dominio de Vercel en `CORS_ORIGINS` (sin barra final) y guarda (se redespliega solo).
 4. Entra con la cuenta administradora del paso 1.3: se vuelve `admin` en el primer ingreso. Desde **Equipo** crea las demás cuentas.
 
 > El plan gratuito de Vercel es solo para uso personal no comercial, y el gratuito de Supabase pausa el proyecto tras una semana sin uso: para uso institucional conviene un plan de pago. Revisa los planes vigentes.

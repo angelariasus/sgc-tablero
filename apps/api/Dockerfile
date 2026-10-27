@@ -1,4 +1,4 @@
-# Imagen de la API (Railway). Contexto de construcción: la raíz del repositorio.
+# Imagen de la API (Render). Contexto de construcción: la raíz del repositorio.
 FROM node:24-slim AS build
 WORKDIR /repo
 RUN corepack enable
