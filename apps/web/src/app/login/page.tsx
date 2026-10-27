@@ -25,6 +25,7 @@ export default function Login() {
   return (
     <main className="wrap" style={{ maxWidth: 460, margin: "9vh auto" }} id="main">
       <div className="card">
+        <img src="/logo.png" alt="UNMSM · Facultad de Medicina San Fernando" width={543} height={123} style={{ width: "100%", maxWidth: 360, height: "auto", display: "block", margin: "0 auto 14px" }} />
         <div className="ph" style={{ marginBottom: 8 }}>
           <h1 style={{ fontSize: "1.45rem" }}>SGC · Tablero de decisiones</h1>
           <div className="gl" />

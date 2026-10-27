@@ -28,28 +28,6 @@ export const VIEWS = [
 
 const ESCUELAS: [EscSel, string][] = [["TODAS", "Todas"], ["ENF", "Enfermería"], ["OBS", "Obstetricia"], ["TM", "Tec. Médica"], ["FAC", "Facultad"], ["NUT", "Nutrición"], ["POS", "Posgrado"]];
 
-function ImageSlot({ which, label }: { which: "logo" | "escudo"; label: string }) {
-  const ws = useWs();
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => { setSrc(localStorage.getItem("sgc-" + which)); }, [which]);
-  return (
-    <label className="slot" title={`Subir el ${label.toLowerCase()} oficial`}>
-      <input
-        type="file" accept="image/*" className="sr" aria-label={`Subir ${label.toLowerCase()} oficial`}
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (!f) return;
-          if (f.size > 1.5e6) return ws.toast("La imagen pesa más de 1,5 MB: usa una más liviana.");
-          const r = new FileReader();
-          r.onload = () => { const url = String(r.result); setSrc(url); try { localStorage.setItem("sgc-" + which, url); } catch { /* sin espacio */ } ws.toast("Imagen puesta. Queda solo en este navegador."); };
-          r.readAsDataURL(f);
-        }}
-      />
-      <span>{src ? <img alt={`${label} oficial`} src={src} /> : (<><Ic n="i-upload" /><span>{label}</span></>)}</span>
-    </label>
-  );
-}
-
 export default function Shell({ children }: { children: ReactNode }) {
   const ws = useWs();
   const auth = useAuth();
@@ -82,7 +60,7 @@ export default function Shell({ children }: { children: ReactNode }) {
             <div className="t2">Tablero de decisiones · Facultad de Medicina San Fernando</div>
             <div className="gline" />
           </div>
-          <div className="slots"><ImageSlot which="logo" label="Logotipo" /><ImageSlot which="escudo" label="Escudo" /></div>
+          <div className="logo-panel"><img src="/logo.png" alt="Universidad Nacional Mayor de San Marcos, Facultad de Medicina San Fernando" width={543} height={123} /></div>
           <nav className="nav" aria-label="Vistas">
             {VIEWS.map((v, i) =>
               "sep" in v ? <div key={i} className="sep" /> : (
